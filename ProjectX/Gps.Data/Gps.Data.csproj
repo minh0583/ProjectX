@@ -72,6 +72,7 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <None Include="App.Config" />
     <None Include="Database\GpsDataModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>GpsDataModel.Context.cs</LastGenOutput>
