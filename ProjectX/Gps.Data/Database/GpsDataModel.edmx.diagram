@@ -10,6 +10,8 @@
         <EntityTypeShape EntityType="GpsDataModel.User" Width="1.5" PointX="3.25" PointY="0.625" />
         <AssociationConnector Association="GpsDataModel.FK_Gps_Users" />
         <AssociationConnector Association="GpsDataModel.FK_Locations_Users" />
+        <EntityTypeShape EntityType="GpsDataModel.License" Width="1.5" PointX="5.5" PointY="1" />
+        <AssociationConnector Association="GpsDataModel.FK_Licenses_Users" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

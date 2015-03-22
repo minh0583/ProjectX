@@ -28,5 +28,6 @@ namespace Gps.Data.Database
         public virtual DbSet<Gp> Gps { get; set; }
         public virtual DbSet<Location> Locations { get; set; }
         public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<License> Licenses { get; set; }
     }
 }

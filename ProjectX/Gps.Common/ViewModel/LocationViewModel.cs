@@ -8,24 +8,24 @@ using System.Threading.Tasks;
 namespace Gps.Common
 {
     [DataContract]
-    public class LocationViewModel
+    public class LocationViewModel : BaseModel
     {
-        [DataMember] 
+        [DataMember]
         public Guid ID { get; set; }
 
-        [DataMember] 
+        [DataMember]
         public double? Longitude { get; set; }
 
-        [DataMember] 
+        [DataMember]
         public double? Latitude { get; set; }
 
-        [DataMember] 
+        [DataMember]
         public string Decription { get; set; }
 
-        [DataMember] 
+        [DataMember]
         public DateTime? LastChanged { get; set; }
 
-        [DataMember] 
+        [DataMember]
         public Guid? LastChangedBy { get; set; }
     }
 }

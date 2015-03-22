@@ -68,6 +68,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>GpsDataModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Database\License.cs">
+      <DependentUpon>GpsDataModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Database\Location.cs">
       <DependentUpon>GpsDataModel.tt</DependentUpon>
     </Compile>
@@ -77,7 +80,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.Config">
+    <None Include="App.Config" />
+    <None Include="Database\App.Config">
       <SubType>Designer</SubType>
     </None>
     <None Include="Database\GpsDataModel.Context.tt">
@@ -95,12 +99,13 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>GpsDataModel.cs</LastGenOutput>
     </None>
-    <None Include="packages.config" />
+    <None Include="Database\packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

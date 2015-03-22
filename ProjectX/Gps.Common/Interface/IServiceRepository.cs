@@ -34,5 +34,9 @@ namespace Gps.Common
         [OperationContract]
         [WebGet(UriTemplate = "/GetAllLocation", ResponseFormat = WebMessageFormat.Json)]
         List<LocationViewModel> GetAllLocation();
+
+        [OperationContract]
+        [WebInvoke(UriTemplate = "/GenerateLicenseKey", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json, Method = "POST")]
+        bool GenerateLicenseKey(string randomKey);
     }
 }

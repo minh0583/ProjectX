@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace Gps.Common
 {
     [DataContract]
-    public class GpsViewModel
+    public class GpsViewModel : BaseModel
     {
         [DataMember] 
         public Guid ID { get; set; }

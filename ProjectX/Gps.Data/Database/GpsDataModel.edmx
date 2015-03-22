@@ -15,6 +15,18 @@
           <Property Name="LastChanged" Type="datetime" />
           <Property Name="LastChangedBy" Type="uniqueidentifier" />
         </EntityType>
+        <EntityType Name="Licenses">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="LicenseNumber" Type="varchar" MaxLength="250" />
+          <Property Name="Description" Type="nvarchar" MaxLength="150" />
+          <Property Name="DeviceNumber" Type="int" />
+          <Property Name="ExpiredDate" Type="datetime" />
+          <Property Name="LastChanged" Type="datetime" />
+          <Property Name="LastChangedBy" Type="uniqueidentifier" />
+        </EntityType>
         <EntityType Name="Locations">
           <Key>
             <PropertyRef Name="ID" />
@@ -52,6 +64,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Licenses_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="Licenses" Type="Self.Licenses" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Licenses">
+              <PropertyRef Name="LastChangedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Locations_Users">
           <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
           <End Role="Locations" Type="Self.Locations" Multiplicity="*" />
@@ -66,11 +90,16 @@
         </Association>
         <EntityContainer Name="GpsDataModelStoreContainer">
           <EntitySet Name="Gps" EntityType="Self.Gps" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Licenses" EntityType="Self.Licenses" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Locations" EntityType="Self.Locations" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_Gps_Users" Association="Self.FK_Gps_Users">
             <End Role="Users" EntitySet="Users" />
             <End Role="Gps" EntitySet="Gps" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Licenses_Users" Association="Self.FK_Licenses_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Licenses" EntitySet="Licenses" />
           </AssociationSet>
           <AssociationSet Name="FK_Locations_Users" Association="Self.FK_Locations_Users">
             <End Role="Users" EntitySet="Users" />
@@ -92,6 +121,11 @@
           <AssociationSet Name="FK_Locations_Users" Association="GpsDataModel.FK_Locations_Users">
             <End Role="User" EntitySet="Users" />
             <End Role="Location" EntitySet="Locations" />
+          </AssociationSet>
+          <EntitySet Name="Licenses" EntityType="GpsDataModel.License" />
+          <AssociationSet Name="FK_Licenses_Users" Association="GpsDataModel.FK_Licenses_Users">
+            <End Role="User" EntitySet="Users" />
+            <End Role="License" EntitySet="Licenses" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="Gp">
@@ -132,6 +166,7 @@
           <Property Name="LastChangedBy" Type="Guid" />
           <NavigationProperty Name="Gps" Relationship="GpsDataModel.FK_Gps_Users" FromRole="User" ToRole="Gp" />
           <NavigationProperty Name="Locations" Relationship="GpsDataModel.FK_Locations_Users" FromRole="User" ToRole="Location" />
+          <NavigationProperty Name="Licenses" Relationship="GpsDataModel.FK_Licenses_Users" FromRole="User" ToRole="License" />
         </EntityType>
         <Association Name="FK_Gps_Users">
           <End Type="GpsDataModel.User" Role="User" Multiplicity="0..1" />
@@ -153,6 +188,31 @@
               <PropertyRef Name="ID" />
             </Principal>
             <Dependent Role="Location">
+              <PropertyRef Name="LastChangedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="License">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Guid" Nullable="false" />
+          <Property Name="LicenseNumber" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="DeviceNumber" Type="Int32" />
+          <Property Name="ExpiredDate" Type="DateTime" Precision="3" />
+          <Property Name="LastChanged" Type="DateTime" Precision="3" />
+          <Property Name="LastChangedBy" Type="Guid" />
+          <NavigationProperty Name="User" Relationship="GpsDataModel.FK_Licenses_Users" FromRole="License" ToRole="User" />
+        </EntityType>
+        <Association Name="FK_Licenses_Users">
+          <End Type="GpsDataModel.User" Role="User" Multiplicity="0..1" />
+          <End Type="GpsDataModel.License" Role="License" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="License">
               <PropertyRef Name="LastChangedBy" />
             </Dependent>
           </ReferentialConstraint>
@@ -197,6 +257,19 @@
                 <ScalarProperty Name="FullName" ColumnName="FullName" />
                 <ScalarProperty Name="Password" ColumnName="Password" />
                 <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Licenses">
+            <EntityTypeMapping TypeName="GpsDataModel.License">
+              <MappingFragment StoreEntitySet="Licenses">
+                <ScalarProperty Name="LastChangedBy" ColumnName="LastChangedBy" />
+                <ScalarProperty Name="LastChanged" ColumnName="LastChanged" />
+                <ScalarProperty Name="ExpiredDate" ColumnName="ExpiredDate" />
+                <ScalarProperty Name="DeviceNumber" ColumnName="DeviceNumber" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="LicenseNumber" ColumnName="LicenseNumber" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>

@@ -24,17 +24,55 @@ namespace Gps.App.Manager
 
         private void button1_Click(object sender, EventArgs e)
         {
-            try
+            var result = false;
+
+            Random rng = new Random();
+
+            for (int i = 0; i < 50; i++)
             {
-                using (var client = new ServiceClient<IServiceRepository>("BasicHttpBinding_IGpsRepository"))
+                int lat = rng.Next(516400146, 630304598);
+                int lon = rng.Next(224464416, 341194152);
+
+                var data = new LocationViewModel
                 {
-                    var abc = client.Proxy.GetMessage();
+                    Decription = string.Format("Test Data {0}", i),
+                    Latitude = 18d + lat / 1000000000d,
+                    Longitude = -72d - lon / 1000000000d
+                };
+
+                result = Utils.DoPostData(data, "PushLocation");
+
+                if (!result)
+                {
+                    break;
+                }
+                
+            }
+
+            for (int i = 0; i < 10; i++)
+            {
+                var data = new LocationViewModel
+                {
+                    Decription = string.Format("Test Data {0}", i),
+                    Latitude = i,
+                    Longitude = i + 10
+                };
+
+                result = Utils.DoPostData(data, "PushLocation");
+
+                if (!result)
+                {
+                    break;
                 }
             }
-            catch (Exception ex)
-            {
 
-                throw;
+            if (result)
+            {
+                MessageBox.Show("Inserted successfully.", "GPS", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else
+            {
+                MessageBox.Show("Some errors occurs.", "GPS", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
         }
@@ -70,8 +108,23 @@ namespace Gps.App.Manager
 
             if (result != null)
             {
+                dataGridView1.DataSource = result;
                 //MessageBox.Show(string.Format("{0} - {1}", result.Code, result.Description), "GPS", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            //var result = Utils.DoDelete<LocationViewModel>("DeleteAllLocation");
+
+            //if (result)
+            //{
+            //    MessageBox.Show("Deleted successfully.", "GPS", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            //}
+            //else
+            //{
+            //    MessageBox.Show("Deleted fail.", "GPS", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //}
         }
 
 

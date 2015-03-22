@@ -1,0 +1,1 @@
+﻿<%@ ServiceHost Language="C#" Debug="true" Service="Gps.Data.License.LicenseServiceRepository" CodeBehind="Gps.Data.License.LicenseServiceRepository" %>
