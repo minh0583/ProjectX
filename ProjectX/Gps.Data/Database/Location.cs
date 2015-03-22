@@ -12,11 +12,12 @@ namespace Gps.Data.Database
     using System;
     using System.Collections.Generic;
     
-    public partial class Gp
+    public partial class Location
     {
         public System.Guid ID { get; set; }
-        public string Code { get; set; }
-        public string Description { get; set; }
+        public Nullable<double> Longitude { get; set; }
+        public Nullable<double> Latitude { get; set; }
+        public string Decription { get; set; }
         public Nullable<System.DateTime> LastChanged { get; set; }
         public Nullable<System.Guid> LastChangedBy { get; set; }
     

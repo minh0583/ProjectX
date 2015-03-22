@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace Gps.Common
 {
     [ServiceContract]           
-    public interface IGpsRepository
+    public interface IServiceRepository
     {
         [OperationContract]
         [WebGet(UriTemplate = "/GetMessage", ResponseFormat = WebMessageFormat.Json)]
@@ -22,5 +22,17 @@ namespace Gps.Common
         [OperationContract]
         [WebGet(UriTemplate = "/GetGpsData/{ID}", ResponseFormat = WebMessageFormat.Json)]
         GpsViewModel GetGpsData(string ID);
+
+        [OperationContract]
+        [WebInvoke(UriTemplate = "/PushLocation", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json, Method = "POST")]
+        bool PushLocation(LocationViewModel data);
+
+        [OperationContract]
+        [WebGet(UriTemplate = "/GetLocation/{ID}", ResponseFormat = WebMessageFormat.Json)]
+        LocationViewModel GetLocation(string ID);
+
+        [OperationContract]
+        [WebGet(UriTemplate = "/GetAllLocation", ResponseFormat = WebMessageFormat.Json)]
+        List<LocationViewModel> GetAllLocation();
     }
 }

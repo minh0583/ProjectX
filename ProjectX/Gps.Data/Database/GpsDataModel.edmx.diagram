@@ -5,7 +5,11 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="59eef77019e6448d95bd339083167e19" Name="Diagram1">
-        <EntityTypeShape EntityType="GpsDataModel.Gp" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="GpsDataModel.Gp" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="GpsDataModel.Location" Width="1.5" PointX="3" PointY="5.25" />
+        <EntityTypeShape EntityType="GpsDataModel.User" Width="1.5" PointX="3.25" PointY="0.625" />
+        <AssociationConnector Association="GpsDataModel.FK_Gps_Users" />
+        <AssociationConnector Association="GpsDataModel.FK_Locations_Users" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

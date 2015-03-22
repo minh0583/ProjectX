@@ -1,1 +1,1 @@
-﻿<%@ ServiceHost Language="C#" Debug="true" Service="Gps.Data.Handler.GpsRepository" CodeBehind="Gps.Data.Handler.GpsRepository" %>
+﻿<%@ ServiceHost Language="C#" Debug="true" Service="Gps.Data.Handler.ServiceRepository" CodeBehind="Gps.Data.Handler.ServiceRepository" %>

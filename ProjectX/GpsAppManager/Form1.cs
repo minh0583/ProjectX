@@ -16,6 +16,7 @@ namespace Gps.App.Manager
 {
     public partial class Form1 : Form
     {
+
         public Form1()
         {
             InitializeComponent();
@@ -25,7 +26,7 @@ namespace Gps.App.Manager
         {
             try
             {
-                using (var client = new ServiceClient<IGpsRepository>("BasicHttpBinding_IGpsRepository"))
+                using (var client = new ServiceClient<IServiceRepository>("BasicHttpBinding_IGpsRepository"))
                 {
                     var abc = client.Proxy.GetMessage();
                 }
@@ -40,44 +41,40 @@ namespace Gps.App.Manager
 
         private void button2_Click(object sender, EventArgs e)
         {
-           
-           
-
-            //using (var client = new ServiceClient<IGpsRepository>("BasicHttpBinding_IGpsRepository"))
+            //var data = new GpsViewModel
             //{
-            //    var data = new GpsViewModel
-            //    {
-            //        ID = Guid.NewGuid(),
-            //        Code = "MN",
-            //        Description = "Minnesota"
-            //    };
+            //    ID = Guid.NewGuid(),
+            //    Code = "MN",
+            //    Description = "Minnesota"
+            //};
 
-            //    var result = client.Proxy.InsertGpsData(data);
-            //    if (result)
-            //    {
-            //        MessageBox.Show("Insert data successfully.", "GPS", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            //    }
-            //}
-        }
-
-        private void button3_Click(object sender, EventArgs e)  
-        {
-            try
+            var data = new LocationViewModel
             {
-                WebClient proxy = new WebClient();
-                string serviceURL = string.Format("http://localhost:24773/Service.svc/GetGpsData/{0}", "F5E1E36A-548D-4C36-82DD-E012C8DDC23B");
-                byte[] data = proxy.DownloadData(serviceURL);
-                Stream stream = new MemoryStream(data);
-                DataContractJsonSerializer obj = new DataContractJsonSerializer(typeof(GpsViewModel));
-                var result = obj.ReadObject(stream) as GpsViewModel;
+                Latitude = 1,
+                Longitude = 1
+            };
 
-                if (result != null)
-                {
-                    MessageBox.Show(string.Format("{0} - {1}", result.Code, result.Description), "GPS", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            var result = Utils.DoPostData(data, "PushLocation");
 
-                }
-            }catch(Exception ex){}
+            if (result)
+            {
+                MessageBox.Show("Inserted successfully.", "GPS", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
         }
+
+
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            var result = Utils.DoGetDataList<LocationViewModel>("GetAllLocation");
+
+            if (result != null)
+            {
+                //MessageBox.Show(string.Format("{0} - {1}", result.Code, result.Description), "GPS", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
+
 
 
     }

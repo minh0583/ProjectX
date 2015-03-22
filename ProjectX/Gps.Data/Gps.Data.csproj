@@ -68,11 +68,18 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>GpsDataModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Database\Location.cs">
+      <DependentUpon>GpsDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\User.cs">
+      <DependentUpon>GpsDataModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
-    <None Include="App.Config" />
+    <None Include="App.Config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Database\GpsDataModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>GpsDataModel.Context.cs</LastGenOutput>

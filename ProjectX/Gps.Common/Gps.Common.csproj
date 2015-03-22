@@ -46,9 +46,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Interface\IGpsRepository.cs" />
+    <Compile Include="Classes\Utils.cs" />
+    <Compile Include="Interface\IServiceRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServiceClient.cs" />
+    <Compile Include="ViewModel\LocationViewModel.cs" />
     <Compile Include="ViewModel\GpsViewModel.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
