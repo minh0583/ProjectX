@@ -13,6 +13,14 @@ namespace Gps.Common
     {
         [OperationContract]
         [WebInvoke(UriTemplate = "/GenerateLicenseKey", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json, Method = "POST")]
-        bool GenerateLicenseKey(string randomKey);
+        string GenerateLicenseKey(string randomKey);
+
+        [OperationContract]
+        [WebInvoke(UriTemplate = "/ActiveDevice", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json, Method = "POST")]
+        string ActiveDevice(NameValuePair data);
+
+        [OperationContract]
+        [WebInvoke(UriTemplate = "/VerifyDevice", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json, Method = "POST")]
+        bool VerifyDevice(string deviceId);
     }
 }

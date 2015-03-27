@@ -30,7 +30,7 @@ namespace Gps.Common
             var webClient = new WebClient();
             webClient.Headers["Content-type"] = "application/json";
             webClient.Encoding = Encoding.UTF8;
-            webClient.UploadString(string.Format("{0}/{1}", urlService, functionName), "POST", postData);
+            var abc = webClient.UploadString(string.Format("{0}/{1}", urlService, functionName), "POST", postData);
 
             return true;
         }

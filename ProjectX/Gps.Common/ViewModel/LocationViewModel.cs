@@ -20,7 +20,7 @@ namespace Gps.Common
         public double? Latitude { get; set; }
 
         [DataMember]
-        public string Decription { get; set; }
+        public string Description { get; set; }
 
         [DataMember]
         public DateTime? LastChanged { get; set; }

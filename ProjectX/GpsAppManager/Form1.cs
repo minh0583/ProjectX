@@ -35,7 +35,7 @@ namespace Gps.App.Manager
 
                 var data = new LocationViewModel
                 {
-                    Decription = string.Format("Test Data {0}", i),
+                    Description = string.Format("Test Data {0}", i),
                     Latitude = 18d + lat / 1000000000d,
                     Longitude = -72d - lon / 1000000000d
                 };
@@ -53,7 +53,7 @@ namespace Gps.App.Manager
             {
                 var data = new LocationViewModel
                 {
-                    Decription = string.Format("Test Data {0}", i),
+                    Description = string.Format("Test Data {0}", i),
                     Latitude = i,
                     Longitude = i + 10
                 };

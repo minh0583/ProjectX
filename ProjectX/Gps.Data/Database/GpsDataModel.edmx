@@ -5,6 +5,17 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="GpsDataModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Devices">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="250" />
+          <Property Name="DeviceType" Type="int" />
+          <Property Name="LicenseNumber" Type="varchar" MaxLength="250" />
+          <Property Name="LastChanged" Type="datetime" />
+          <Property Name="LastChangedBy" Type="uniqueidentifier" />
+        </EntityType>
         <EntityType Name="Gps">
           <Key>
             <PropertyRef Name="ID" />
@@ -34,7 +45,7 @@
           <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
           <Property Name="Longitude" Type="float" />
           <Property Name="Latitude" Type="float" />
-          <Property Name="Decription" Type="nvarchar" MaxLength="500" />
+          <Property Name="Description" Type="nvarchar" MaxLength="500" />
           <Property Name="LastChanged" Type="datetime" />
           <Property Name="LastChangedBy" Type="uniqueidentifier" />
         </EntityType>
@@ -89,6 +100,7 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="GpsDataModelStoreContainer">
+          <EntitySet Name="Devices" EntityType="Self.Devices" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Gps" EntityType="Self.Gps" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Licenses" EntityType="Self.Licenses" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Locations" EntityType="Self.Locations" Schema="dbo" store:Type="Tables" />
@@ -112,20 +124,21 @@
       <Schema Namespace="GpsDataModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="GpsDataEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Gps" EntityType="GpsDataModel.Gp" />
-          <EntitySet Name="Locations" EntityType="GpsDataModel.Location" />
           <EntitySet Name="Users" EntityType="GpsDataModel.User" />
           <AssociationSet Name="FK_Gps_Users" Association="GpsDataModel.FK_Gps_Users">
             <End Role="User" EntitySet="Users" />
             <End Role="Gp" EntitySet="Gps" />
           </AssociationSet>
-          <AssociationSet Name="FK_Locations_Users" Association="GpsDataModel.FK_Locations_Users">
-            <End Role="User" EntitySet="Users" />
-            <End Role="Location" EntitySet="Locations" />
-          </AssociationSet>
           <EntitySet Name="Licenses" EntityType="GpsDataModel.License" />
           <AssociationSet Name="FK_Licenses_Users" Association="GpsDataModel.FK_Licenses_Users">
             <End Role="User" EntitySet="Users" />
             <End Role="License" EntitySet="Licenses" />
+          </AssociationSet>
+          <EntitySet Name="Devices" EntityType="GpsDataModel.Device" />
+          <EntitySet Name="Locations" EntityType="GpsDataModel.Location" />
+          <AssociationSet Name="FK_Locations_Users" Association="GpsDataModel.FK_Locations_Users">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Location" EntitySet="Locations" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="Gp">
@@ -138,18 +151,6 @@
           <Property Name="LastChanged" Type="DateTime" Precision="3" />
           <Property Name="LastChangedBy" Type="Guid" />
           <NavigationProperty Name="User" Relationship="GpsDataModel.FK_Gps_Users" FromRole="Gp" ToRole="User" />
-        </EntityType>
-        <EntityType Name="Location">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Guid" Nullable="false" />
-          <Property Name="Longitude" Type="Double" />
-          <Property Name="Latitude" Type="Double" />
-          <Property Name="Decription" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="LastChanged" Type="DateTime" Precision="3" />
-          <Property Name="LastChangedBy" Type="Guid" />
-          <NavigationProperty Name="User" Relationship="GpsDataModel.FK_Locations_Users" FromRole="Location" ToRole="User" />
         </EntityType>
         <EntityType Name="User">
           <Key>
@@ -165,8 +166,8 @@
           <Property Name="LastChanged" Type="DateTime" Precision="3" />
           <Property Name="LastChangedBy" Type="Guid" />
           <NavigationProperty Name="Gps" Relationship="GpsDataModel.FK_Gps_Users" FromRole="User" ToRole="Gp" />
-          <NavigationProperty Name="Locations" Relationship="GpsDataModel.FK_Locations_Users" FromRole="User" ToRole="Location" />
           <NavigationProperty Name="Licenses" Relationship="GpsDataModel.FK_Licenses_Users" FromRole="User" ToRole="License" />
+          <NavigationProperty Name="Locations" Relationship="GpsDataModel.FK_Locations_Users" FromRole="User" ToRole="Location" />
         </EntityType>
         <Association Name="FK_Gps_Users">
           <End Type="GpsDataModel.User" Role="User" Multiplicity="0..1" />
@@ -176,18 +177,6 @@
               <PropertyRef Name="ID" />
             </Principal>
             <Dependent Role="Gp">
-              <PropertyRef Name="LastChangedBy" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Locations_Users">
-          <End Type="GpsDataModel.User" Role="User" Multiplicity="0..1" />
-          <End Type="GpsDataModel.Location" Role="Location" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="User">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Location">
               <PropertyRef Name="LastChangedBy" />
             </Dependent>
           </ReferentialConstraint>
@@ -217,6 +206,41 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Device">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Guid" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="DeviceType" Type="Int32" />
+          <Property Name="LicenseNumber" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="LastChanged" Type="DateTime" Precision="3" />
+          <Property Name="LastChangedBy" Type="Guid" />
+        </EntityType>
+        <EntityType Name="Location">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Guid" Nullable="false" />
+          <Property Name="Longitude" Type="Double" />
+          <Property Name="Latitude" Type="Double" />
+          <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="LastChanged" Type="DateTime" Precision="3" />
+          <Property Name="LastChangedBy" Type="Guid" />
+          <NavigationProperty Name="User" Relationship="GpsDataModel.FK_Locations_Users" FromRole="Location" ToRole="User" />
+        </EntityType>
+        <Association Name="FK_Locations_Users">
+          <End Type="GpsDataModel.User" Role="User" Multiplicity="0..1" />
+          <End Type="GpsDataModel.Location" Role="Location" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Location">
+              <PropertyRef Name="LastChangedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -230,18 +254,6 @@
                 <ScalarProperty Name="LastChanged" ColumnName="LastChanged" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="Code" ColumnName="Code" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Locations">
-            <EntityTypeMapping TypeName="GpsDataModel.Location">
-              <MappingFragment StoreEntitySet="Locations">
-                <ScalarProperty Name="LastChangedBy" ColumnName="LastChangedBy" />
-                <ScalarProperty Name="LastChanged" ColumnName="LastChanged" />
-                <ScalarProperty Name="Decription" ColumnName="Decription" />
-                <ScalarProperty Name="Latitude" ColumnName="Latitude" />
-                <ScalarProperty Name="Longitude" ColumnName="Longitude" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -270,6 +282,30 @@
                 <ScalarProperty Name="DeviceNumber" ColumnName="DeviceNumber" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="LicenseNumber" ColumnName="LicenseNumber" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Devices">
+            <EntityTypeMapping TypeName="GpsDataModel.Device">
+              <MappingFragment StoreEntitySet="Devices">
+                <ScalarProperty Name="LastChangedBy" ColumnName="LastChangedBy" />
+                <ScalarProperty Name="LastChanged" ColumnName="LastChanged" />
+                <ScalarProperty Name="LicenseNumber" ColumnName="LicenseNumber" />
+                <ScalarProperty Name="DeviceType" ColumnName="DeviceType" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Locations">
+            <EntityTypeMapping TypeName="GpsDataModel.Location">
+              <MappingFragment StoreEntitySet="Locations">
+                <ScalarProperty Name="LastChangedBy" ColumnName="LastChangedBy" />
+                <ScalarProperty Name="LastChanged" ColumnName="LastChanged" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Latitude" ColumnName="Latitude" />
+                <ScalarProperty Name="Longitude" ColumnName="Longitude" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>

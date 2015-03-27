@@ -18,8 +18,8 @@ namespace Gps.Data.Database
         public User()
         {
             this.Gps = new HashSet<Gp>();
-            this.Locations = new HashSet<Location>();
             this.Licenses = new HashSet<License>();
+            this.Locations = new HashSet<Location>();
         }
     
         public System.Guid ID { get; set; }
@@ -35,8 +35,8 @@ namespace Gps.Data.Database
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Gp> Gps { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Location> Locations { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<License> Licenses { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Location> Locations { get; set; }
     }
 }

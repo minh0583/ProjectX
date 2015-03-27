@@ -50,9 +50,17 @@ Copyright (C) Microsoft Corporation. All rights reserved.
       <Project>{00CDD021-225A-4F14-BB23-89B9B88162E5}</Project>
       <Name>Gps.Data.Handler</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Gps.Data.Lisence\Gps.Data.License.csproj">
+      <Project>{26DA4AF7-2162-4EA3-912E-5D886ACAD5E9}</Project>
+      <Name>Gps.Data.License</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Gps.Data\Gps.Data.csproj">
       <Project>{F51DC13D-DAD0-4D8E-BABA-FCFF3AED3C7C}</Project>
       <Name>Gps.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Gps.License.Data\Gps.License.Data.csproj">
+      <Project>{08F805E4-319D-4F71-A593-90BDBEB1C51A}</Project>
+      <Name>Gps.License.Data</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(_WebPublishTargetsPath)\Web\Microsoft.WebSite.Publishing.targets" />
